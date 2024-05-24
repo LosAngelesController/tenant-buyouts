@@ -129,11 +129,11 @@ const Home: NextPage = () => {
       levels = ["interpolate", ["linear"], ["zoom"], 7, 3, 15, 4];
     }
 
-    var layer = mapref.current.getLayer("tenant-buyouts-2019-2023");
+    var layer = mapref.current.getLayer("tenant-buyouts-2019-2024");
 
     if (layer) {
       mapref.current.setPaintProperty(
-        "tenant-buyouts-2019-2023",
+        "tenant-buyouts-2019-2024",
         "heatmap-intensity",
         levels
       );
@@ -369,7 +369,7 @@ const Home: NextPage = () => {
         },
       });
 
-      map.on("mouseenter", "tenant-buyouts-2019-2023", (e: any) => {
+      map.on("mouseenter", "tenant-buyouts-2019-2024", (e: any) => {
         const hoveredFeature = e.features[0];
 
         if (hoveredFeature && hoveredFeature.geometry) {
@@ -377,7 +377,7 @@ const Home: NextPage = () => {
 
           popup.setLngLat(e.lngLat);
 
-          const areaPC = hoveredFeature.properties["CD#"];
+          const areaPC = hoveredFeature.properties["CD"];
 
           const allthelineitems = e.features.map((eachCase: any) => {
             if (eachCase.properties?.["Address"]) {
@@ -454,7 +454,7 @@ const Home: NextPage = () => {
         }
       });
 
-      map.on("mouseleave", "tenant-buyouts-2019-2023", () => {
+      map.on("mouseleave", "tenant-buyouts-2019-2024", () => {
         map.getCanvas().style.cursor = "";
         popup.remove();
       });
@@ -489,14 +489,14 @@ const Home: NextPage = () => {
         }
       });
 
-      map.on("mousedown", "tenant-buyouts-2019-2023", (e: any) => {
+      map.on("mousedown", "tenant-buyouts-2019-2024", (e: any) => {
         setEvictionInfo(0);
         setInfoBoxLength(1);
         setEvictionInfoOpen(true);
         console.log("e.features", e.features);
         let filteredData = e.features.map((obj: any) => {
           return {
-            cd: obj.properties["CD#"],
+            cd: obj.properties["CD"],
             address: obj.properties["Address"],
             city: obj.properties["City"],
             zip: obj.properties.Zip,
@@ -668,7 +668,7 @@ const Home: NextPage = () => {
 
     arrayoffilterables.push([
       "match",
-      ["get", "CD#"],
+      ["get", "CD"],
       filteredDistricts,
       true,
       false,
@@ -681,7 +681,7 @@ const Home: NextPage = () => {
         );
 
         if (doneloadingmap === true) {
-          mapref.current.setFilter("tenant-buyouts-2019-2023", filterinput);
+          mapref.current.setFilter("tenant-buyouts-2019-2024", filterinput);
         }
       }
     }
