@@ -20,13 +20,13 @@ const filterableDistricts: any = {
   1: "579",
   2: "169",
   3: "41",
-  4: "190",
+  4: "189",
   5: "368",
   6: "106",
-  7: "59",
+  7: "56",
   8: "306",
   9: "396",
-  10: "1010",
+  10: "1008",
   11: "377",
   12: "4",
   13: "996",
@@ -414,6 +414,12 @@ const Home: NextPage = () => {
                                 ? `<span class="text-amber-400">Year: ${eachCase.properties["Year"]}</span>`
                                 : ""
                             }
+                            <br />
+                            ${
+                              eachCase.properties?.["Rent Credit"]
+                                ? `<span class="text-lime-400">Rent Credit: ${eachCase.properties["Rent Credit"]}</span>`
+                                : ""
+                            }
                       </li>`;
             }
           });
@@ -504,6 +510,7 @@ const Home: NextPage = () => {
             filed: obj.properties["Filed Date"],
             amount: obj.properties.Amount,
             year: obj.properties.Year,
+            rentCredit: obj.properties["Rent Credit"],
           };
         });
 

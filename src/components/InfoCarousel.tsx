@@ -50,6 +50,8 @@ export function InfoCarousel(props: CarouselProps) {
               {props.evictionData[props.evictionInfo]?.amount} <br />
               <b className="text-stone-400">Year:</b>{" "}
               {props.evictionData[props.evictionInfo]?.year} <br />
+              <b className="text-stone-400">Rent Credit:</b>{" "}
+              {props.evictionData[props.evictionInfo]?.rentCredit} <br />
             </p>
           </div>
           <div className="mt-3">
