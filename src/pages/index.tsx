@@ -398,8 +398,8 @@ const Home: NextPage = () => {
                             }
                             <br />
                             ${
-                              eachCase.properties?.["Zip"]
-                                ? `<span class="text-blue-400">Zip: ${eachCase.properties["Zip"]}</span> `
+                              eachCase.properties?.["Zip Code"]
+                                ? `<span class="text-blue-400">Zip: ${eachCase.properties["Zip Code"]}</span> `
                                 : ""
                             }
                             <br />
@@ -499,7 +499,7 @@ const Home: NextPage = () => {
             cd: obj.properties["CD"],
             address: obj.properties["Address"],
             city: obj.properties["City"],
-            zip: obj.properties.Zip,
+            zip: obj.properties["Zip Code"],
             state: obj.properties["State"],
             filed: obj.properties["Filed Date"],
             amount: obj.properties.Amount,
