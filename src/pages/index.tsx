@@ -153,243 +153,243 @@ const Home: NextPage = () => {
   useEffect(() => {
     if (mapboxConfig && divRef.current) {
       mapboxgl.accessToken = mapboxConfig.mapboxToken;
-    // mapboxgl.accessToken =
-    //   "pk.eyJ1Ijoia2VubmV0aG1lamlhIiwiYSI6ImNsZG1oYnpxNDA2aTQzb2tkYXU2ZWc1b3UifQ.PxO_XgMo13klJ3mQw1QxlQ";
+      // mapboxgl.accessToken =
+      //   "pk.eyJ1Ijoia2VubmV0aG1lamlhIiwiYSI6ImNsZG1oYnpxNDA2aTQzb2tkYXU2ZWc1b3UifQ.PxO_XgMo13klJ3mQw1QxlQ";
 
-    const formulaForZoom = () => {
-      if (typeof window != "undefined") {
-        if (window.innerWidth > 700) {
-          return 10;
-        } else {
-          return 9.1;
-        }
-      }
-    };
-
-    const urlParams = new URLSearchParams(
-      typeof window != "undefined" ? window.location.search : ""
-    );
-    const latParam = urlParams.get("lat");
-    const lngParam = urlParams.get("lng");
-    const zoomParam = urlParams.get("zoom");
-    const debugParam = urlParams.get("debug");
-
-    var mapparams: any = {
-      container: divRef.current, // container ID
-      style: "mapbox://styles/kennethmejia/clqy3aerb00fj01ob1tj3b5m2", // style URL (THIS IS STREET VIEW)
-      center: [-118.41, 34], // starting position [lng, lat]
-      zoom: formulaForZoom(), // starting zoom
-    };
-
-    const map = new mapboxgl.Map(mapparams);
-    mapref.current = map;
-
-    var rtldone = false;
-
-    try {
-      if (rtldone === false && hasStartedControls === false) {
-        setHasStartedControls(true);
-        //multilingual support
-        //right to left allows arabic rendering
-        mapboxgl.setRTLTextPlugin(
-          "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.10.1/mapbox-gl-rtl-text.js",
-          (callbackinfo: any) => {
-            console.log(callbackinfo);
-            rtldone = true;
+      const formulaForZoom = () => {
+        if (typeof window != "undefined") {
+          if (window.innerWidth > 700) {
+            return 10;
+          } else {
+            return 9.1;
           }
-        );
-      }
-
-      const language = new MapboxLanguage();
-      map.addControl(language);
-    } catch (error) {
-      console.error(error);
-    }
-
-    window.addEventListener("resize", handleResize);
-
-    map.on("load", () => {
-      setdoneloadingmap(true);
-      setshowtotalarea(window.innerWidth > 640 ? true : false);
-
-      okaydeletepoints.current = () => {
-        try {
-          var evictionPoint: any = map.getSource("tenant-point");
-          evictionPoint.setData(null);
-        } catch (err) {
-          console.error(err);
         }
       };
 
-      const processgeocodereventresult = (eventmapbox: any) => {
-        var singlePointSet: any = map.getSource("single-point");
+      const urlParams = new URLSearchParams(
+        typeof window != "undefined" ? window.location.search : ""
+      );
+      const latParam = urlParams.get("lat");
+      const lngParam = urlParams.get("lng");
+      const zoomParam = urlParams.get("zoom");
+      const debugParam = urlParams.get("debug");
 
-        singlePointSet.setData({
-          type: "FeatureCollection",
-          features: [
-            {
-              type: "Feature",
-              geometry: eventmapbox.result.geometry,
-            },
-          ],
-        });
+      var mapparams: any = {
+        container: divRef.current, // container ID
+        style: "mapbox://styles/kennethmejia/clqy3aerb00fj01ob1tj3b5m2", // style URL (THIS IS STREET VIEW)
+        center: [-118.41, 34], // starting position [lng, lat]
+        zoom: formulaForZoom(), // starting zoom
       };
 
-      const processgeocodereventselect = (object: any) => {
-        var coord = object.feature.geometry.coordinates;
-        var singlePointSet: any = map.getSource("single-point");
+      const map = new mapboxgl.Map(mapparams);
+      mapref.current = map;
 
-        singlePointSet.setData({
-          type: "FeatureCollection",
-          features: [
-            {
-              type: "Feature",
-              geometry: object.feature.geometry,
-            },
-          ],
-        });
-      };
+      var rtldone = false;
 
-      const geocoder: any = new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        mapboxgl: map,
-        proximity: {
-          longitude: -118.41,
-          latitude: 34,
-        },
-        marker: true,
-      });
-
-      var colormarker = new mapboxgl.Marker({
-        color: "#41ffca",
-      });
-
-      const geocoderopt: any = {
-        accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl,
-        marker: {
-          color: "#41ffca",
-        },
-      };
-
-      const geocoder2 = new MapboxGeocoder(geocoderopt);
-      const geocoder3 = new MapboxGeocoder(geocoderopt);
-
-      geocoder.on("result", (event: any) => {
-        processgeocodereventresult(event);
-      });
-
-      geocoder.on("select", function (object: any) {
-        processgeocodereventselect(object);
-      });
-
-      var geocoderId = document.getElementById("geocoder");
-
-      if (geocoderId) {
-        if (!document.querySelector(".geocoder input")) {
-          geocoderId.appendChild(geocoder3.onAdd(map));
-
-          var inputMobile = document.querySelector(".geocoder input");
-
-          try {
-            var loadboi = document.querySelector(
-              ".mapboxgl-ctrl-geocoder--icon-loading"
-            );
-            if (loadboi) {
-              var brightspin: any = loadboi.firstChild;
-              if (brightspin) {
-                brightspin.setAttribute("style", "fill: #e2e8f0");
-              }
-              var darkspin: any = loadboi.lastChild;
-              if (darkspin) {
-                darkspin.setAttribute("style", "fill: #94a3b8");
-              }
+      try {
+        if (rtldone === false && hasStartedControls === false) {
+          setHasStartedControls(true);
+          //multilingual support
+          //right to left allows arabic rendering
+          mapboxgl.setRTLTextPlugin(
+            "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.10.1/mapbox-gl-rtl-text.js",
+            (callbackinfo: any) => {
+              console.log(callbackinfo);
+              rtldone = true;
             }
+          );
+        }
+
+        const language = new MapboxLanguage();
+        map.addControl(language);
+      } catch (error) {
+        console.error(error);
+      }
+
+      window.addEventListener("resize", handleResize);
+
+      map.on("load", () => {
+        setdoneloadingmap(true);
+        setshowtotalarea(window.innerWidth > 640 ? true : false);
+
+        okaydeletepoints.current = () => {
+          try {
+            var evictionPoint: any = map.getSource("tenant-point");
+            evictionPoint.setData(null);
           } catch (err) {
             console.error(err);
           }
+        };
 
-          if (inputMobile) {
-            inputMobile.addEventListener("focus", () => {
-              //make the box below go away
-            });
+        const processgeocodereventresult = (eventmapbox: any) => {
+          var singlePointSet: any = map.getSource("single-point");
+
+          singlePointSet.setData({
+            type: "FeatureCollection",
+            features: [
+              {
+                type: "Feature",
+                geometry: eventmapbox.result.geometry,
+              },
+            ],
+          });
+        };
+
+        const processgeocodereventselect = (object: any) => {
+          var coord = object.feature.geometry.coordinates;
+          var singlePointSet: any = map.getSource("single-point");
+
+          singlePointSet.setData({
+            type: "FeatureCollection",
+            features: [
+              {
+                type: "Feature",
+                geometry: object.feature.geometry,
+              },
+            ],
+          });
+        };
+
+        const geocoder: any = new MapboxGeocoder({
+          accessToken: mapboxgl.accessToken,
+          mapboxgl: map,
+          proximity: {
+            longitude: -118.41,
+            latitude: 34,
+          },
+          marker: true,
+        });
+
+        var colormarker = new mapboxgl.Marker({
+          color: "#41ffca",
+        });
+
+        const geocoderopt: any = {
+          accessToken: mapboxgl.accessToken,
+          mapboxgl: mapboxgl,
+          marker: {
+            color: "#41ffca",
+          },
+        };
+
+        const geocoder2 = new MapboxGeocoder(geocoderopt);
+        const geocoder3 = new MapboxGeocoder(geocoderopt);
+
+        geocoder.on("result", (event: any) => {
+          processgeocodereventresult(event);
+        });
+
+        geocoder.on("select", function (object: any) {
+          processgeocodereventselect(object);
+        });
+
+        var geocoderId = document.getElementById("geocoder");
+
+        if (geocoderId) {
+          if (!document.querySelector(".geocoder input")) {
+            geocoderId.appendChild(geocoder3.onAdd(map));
+
+            var inputMobile = document.querySelector(".geocoder input");
+
+            try {
+              var loadboi = document.querySelector(
+                ".mapboxgl-ctrl-geocoder--icon-loading"
+              );
+              if (loadboi) {
+                var brightspin: any = loadboi.firstChild;
+                if (brightspin) {
+                  brightspin.setAttribute("style", "fill: #e2e8f0");
+                }
+                var darkspin: any = loadboi.lastChild;
+                if (darkspin) {
+                  darkspin.setAttribute("style", "fill: #94a3b8");
+                }
+              }
+            } catch (err) {
+              console.error(err);
+            }
+
+            if (inputMobile) {
+              inputMobile.addEventListener("focus", () => {
+                //make the box below go away
+              });
+            }
           }
+
+          geocoder2.on("result", (event: any) => {
+            processgeocodereventresult(event);
+          });
+
+          geocoder2.on("select", function (object: any) {
+            processgeocodereventselect(object);
+          });
+
+          geocoder3.on("result", (event: any) => {
+            processgeocodereventresult(event);
+          });
+
+          geocoder3.on("select", function (object: any) {
+            processgeocodereventselect(object);
+          });
         }
 
-        geocoder2.on("result", (event: any) => {
-          processgeocodereventresult(event);
+        map.addSource("single-point", {
+          type: "geojson",
+          data: {
+            type: "FeatureCollection",
+            features: [],
+          },
         });
 
-        geocoder2.on("select", function (object: any) {
-          processgeocodereventselect(object);
+        if (debugParam) {
+          map.showTileBoundaries = true;
+          map.showCollisionBoxes = true;
+          map.showPadding = true;
+        }
+
+        if (urlParams.get("terraindebug")) {
+          map.showTerrainWireframe = true;
+        }
+
+        if (
+          !document.querySelector(
+            ".mapboxgl-ctrl-top-right > .mapboxgl-ctrl-geocoder"
+          )
+        ) {
+          map.addControl(geocoder2);
+        }
+
+        checkHideOrShowTopRightGeocoder();
+
+        // Create a popup, but don't add it to the map yet.
+        const popup = new mapboxgl.Popup({
+          closeButton: false,
+          closeOnClick: false,
         });
 
-        geocoder3.on("result", (event: any) => {
-          processgeocodereventresult(event);
+        map.addSource("tenant-point", {
+          type: "geojson",
+          data: {
+            type: "FeatureCollection",
+            features: [],
+          },
         });
 
-        geocoder3.on("select", function (object: any) {
-          processgeocodereventselect(object);
-        });
-      }
+        map.on("mouseenter", "tenant-buyouts-2019-2024", (e: any) => {
+          const hoveredFeature = e.features[0];
 
-      map.addSource("single-point", {
-        type: "geojson",
-        data: {
-          type: "FeatureCollection",
-          features: [],
-        },
-      });
+          if (hoveredFeature && hoveredFeature.geometry) {
+            map.getCanvas().style.cursor = "pointer";
 
-      if (debugParam) {
-        map.showTileBoundaries = true;
-        map.showCollisionBoxes = true;
-        map.showPadding = true;
-      }
+            popup.setLngLat(e.lngLat);
 
-      if (urlParams.get("terraindebug")) {
-        map.showTerrainWireframe = true;
-      }
+            const areaPC = hoveredFeature.properties["CD"];
 
-      if (
-        !document.querySelector(
-          ".mapboxgl-ctrl-top-right > .mapboxgl-ctrl-geocoder"
-        )
-      ) {
-        map.addControl(geocoder2);
-      }
-
-      checkHideOrShowTopRightGeocoder();
-
-      // Create a popup, but don't add it to the map yet.
-      const popup = new mapboxgl.Popup({
-        closeButton: false,
-        closeOnClick: false,
-      });
-
-      map.addSource("tenant-point", {
-        type: "geojson",
-        data: {
-          type: "FeatureCollection",
-          features: [],
-        },
-      });
-
-      map.on("mouseenter", "tenant-buyouts-2019-2024", (e: any) => {
-        const hoveredFeature = e.features[0];
-
-        if (hoveredFeature && hoveredFeature.geometry) {
-          map.getCanvas().style.cursor = "pointer";
-
-          popup.setLngLat(e.lngLat);
-
-          const areaPC = hoveredFeature.properties["CD"];
-
-          const allthelineitems = e.features.map((eachCase: any) => {
-            if (eachCase.properties?.["Address"]) {
-              return `<li class="leading-none my-2 text-blue-400">Address: ${
-                eachCase.properties["Address"]
-              }
+            const allthelineitems = e.features.map((eachCase: any) => {
+              if (eachCase.properties?.["Address"]) {
+                return `<li class="leading-none my-2 text-blue-400">Address: ${
+                  eachCase.properties["Address"]
+                }
                             <br />
                             ${
                               eachCase.properties?.["City"]
@@ -427,16 +427,16 @@ const Home: NextPage = () => {
                                 : ""
                             }
                       </li>`;
-            }
-          });
+              }
+            });
 
-          popup
-            .setHTML(
-              ` <div>
+            popup
+              .setHTML(
+                ` <div>
                 <p class="font-semibold">Council District: ${areaPC}</p>
                 <p>${e.features.length} Tenant Buyout${
-                e.features.length > 1 ? "s" : ""
-              }</p>
+                  e.features.length > 1 ? "s" : ""
+                }</p>
                 <ul class='list-disc leading-none'>
                   ${
                     allthelineitems.length <= 3
@@ -461,220 +461,221 @@ const Home: NextPage = () => {
                 flex-direction: column;
               }
               </style>`
-            )
-            .addTo(map);
-        }
-      });
-
-      map.on("mouseleave", "tenant-buyouts-2019-2024", () => {
-        map.getCanvas().style.cursor = "";
-        popup.remove();
-      });
-
-      map.loadImage("/map-marker.png", (error, image: any) => {
-        if (error) throw error;
-
-        // Add the image to the map style.
-        map.addImage("map-marker", image);
-
-        if (true) {
-          // example of how to add a pointer to what is currently selected
-          map.addLayer({
-            id: "point-selected",
-            type: "symbol",
-            source: "tenant-point",
-            paint: {
-              "icon-color": "#FF8C00",
-              "icon-translate": [0, -13],
-            },
-            layout: {
-              "icon-image": "map-marker",
-              // get the title name from the source's "title" property
-              "text-allow-overlap": true,
-              "icon-allow-overlap": true,
-              "icon-ignore-placement": true,
-              "text-ignore-placement": true,
-              "icon-size": 0.5,
-              "icon-text-fit": "both",
-            },
-          });
-        }
-      });
-
-      map.on("mousedown", "tenant-buyouts-2019-2024", (e: any) => {
-        setEvictionInfo(0);
-        setInfoBoxLength(1);
-        setEvictionInfoOpen(true);
-        console.log("e.features", e.features);
-        let filteredData = e.features.map((obj: any) => {
-          return {
-            cd: obj.properties["CD"],
-            address: obj.properties["Address"],
-            city: obj.properties["City"],
-            zip: obj.properties["Zip Code"],
-            state: obj.properties["State"],
-            filed: obj.properties["Filed Date"],
-            amount: obj.properties.Amount,
-            year: obj.properties.Year,
-            rentCredit: obj.properties["Rent Credit"],
-          };
-        });
-
-        var evictionPoint: any = map.getSource("tenant-point");
-        evictionPoint.setData(e.features[0].geometry);
-
-        map.setLayoutProperty("point-selected", "visibility", "visible");
-
-        setEvictionData(filteredData);
-      });
-
-      if (true) {
-        map.addLayer(
-          {
-            id: "citybound",
-            type: "line",
-            source: {
-              type: "geojson",
-              data: citybounds,
-            },
-            paint: {
-              "line-color": "#dddddd",
-              "line-opacity": 1,
-              "line-width": 2,
-            },
-          },
-          "road-label-navigation"
-        );
-
-        map.addSource("citycouncildist", {
-          type: "geojson",
-          data: councildistricts,
-        });
-
-        map.addLayer(
-          {
-            id: "councildistrictslayer",
-            type: "line",
-            source: "citycouncildist",
-            paint: {
-              "line-color": "#dddddd",
-              "line-opacity": 1,
-              "line-width": 1,
-            },
-          },
-          "road-label-navigation"
-        );
-
-        map.addLayer(
-          {
-            id: "councildistrictsselectlayer",
-            type: "fill",
-            source: "citycouncildist",
-            paint: {
-              "fill-color": "#000000",
-              "fill-opacity": 0,
-            },
-          },
-          "road-label-navigation"
-        );
-
-        map.on("mousedown", "councildistrictsselectlayer", (e: any) => {
-          var sourceofcouncildistselect: any = map.getSource(
-            "selected-council-dist"
-          );
-
-          var clickeddata = e.features[0].properties.district;
-
-          var councildistpolygonfound = councildistricts.features.find(
-            (eachDist: any) => eachDist.properties.district === clickeddata
-          );
-
-          if (sourceofcouncildistselect) {
-            if (councildistpolygonfound) {
-              sourceofcouncildistselect.setData(councildistpolygonfound);
-            }
+              )
+              .addTo(map);
           }
         });
 
-        map.addSource("selected-council-dist", {
-          type: "geojson",
-          data: {
-            type: "FeatureCollection",
-            features: [],
-          },
+        map.on("mouseleave", "tenant-buyouts-2019-2024", () => {
+          map.getCanvas().style.cursor = "";
+          popup.remove();
         });
 
-        map.addLayer(
-          {
-            id: "selected-council-dist-layer",
-            type: "fill",
-            source: "selected-council-dist",
-            paint: {
-              "fill-color": "#000000",
-              "fill-opacity": 0.3,
+        map.loadImage("/map-marker.png", (error, image: any) => {
+          if (error) throw error;
+
+          // Add the image to the map style.
+          map.addImage("map-marker", image);
+
+          if (true) {
+            // example of how to add a pointer to what is currently selected
+            map.addLayer({
+              id: "point-selected",
+              type: "symbol",
+              source: "tenant-point",
+              paint: {
+                "icon-color": "#FF8C00",
+                "icon-translate": [0, -13],
+              },
+              layout: {
+                "icon-image": "map-marker",
+                // get the title name from the source's "title" property
+                "text-allow-overlap": true,
+                "icon-allow-overlap": true,
+                "icon-ignore-placement": true,
+                "text-ignore-placement": true,
+                "icon-size": 0.5,
+                "icon-text-fit": "both",
+              },
+            });
+          }
+        });
+
+        map.on("mousedown", "tenant-buyouts-2019-2024", (e: any) => {
+          setEvictionInfo(0);
+          setInfoBoxLength(1);
+          setEvictionInfoOpen(true);
+          console.log("e.features", e.features);
+          let filteredData = e.features.map((obj: any) => {
+            return {
+              cd: obj.properties["CD"],
+              address: obj.properties["Address"],
+              city: obj.properties["City"],
+              zip: obj.properties["Zip Code"],
+              state: obj.properties["State"],
+              filed: obj.properties["Filed Date"],
+              amount: obj.properties.Amount,
+              year: obj.properties.Year,
+              rentCredit: obj.properties["Rent Credit"],
+            };
+          });
+
+          var evictionPoint: any = map.getSource("tenant-point");
+          evictionPoint.setData(e.features[0].geometry);
+
+          map.setLayoutProperty("point-selected", "visibility", "visible");
+
+          setEvictionData(filteredData);
+        });
+
+        if (true) {
+          map.addLayer(
+            {
+              id: "citybound",
+              type: "line",
+              source: {
+                type: "geojson",
+                data: citybounds,
+              },
+              paint: {
+                "line-color": "#dddddd",
+                "line-opacity": 1,
+                "line-width": 2,
+              },
             },
-          },
-          "road-label-navigation"
-        );
-      }
+            "road-label-navigation"
+          );
 
-      if (hasStartedControls === false) {
-        // Add zoom and rotation controls to the map.
-        map.addControl(new mapboxgl.NavigationControl());
+          map.addSource("citycouncildist", {
+            type: "geojson",
+            data: councildistricts,
+          });
 
-        // Add geolocate control to the map.
-        map.addControl(
-          new mapboxgl.GeolocateControl({
-            positionOptions: {
-              enableHighAccuracy: true,
+          map.addLayer(
+            {
+              id: "councildistrictslayer",
+              type: "line",
+              source: "citycouncildist",
+              paint: {
+                "line-color": "#dddddd",
+                "line-opacity": 1,
+                "line-width": 1,
+              },
             },
-            // When active the map will receive updates to the device's location as it changes.
-            trackUserLocation: true,
-            // Draw an arrow next to the location dot to indicate which direction the device is heading.
-            showUserHeading: true,
-          })
-        );
+            "road-label-navigation"
+          );
+
+          map.addLayer(
+            {
+              id: "councildistrictsselectlayer",
+              type: "fill",
+              source: "citycouncildist",
+              paint: {
+                "fill-color": "#000000",
+                "fill-opacity": 0,
+              },
+            },
+            "road-label-navigation"
+          );
+
+          map.on("mousedown", "councildistrictsselectlayer", (e: any) => {
+            var sourceofcouncildistselect: any = map.getSource(
+              "selected-council-dist"
+            );
+
+            var clickeddata = e.features[0].properties.district;
+
+            var councildistpolygonfound = councildistricts.features.find(
+              (eachDist: any) => eachDist.properties.district === clickeddata
+            );
+
+            if (sourceofcouncildistselect) {
+              if (councildistpolygonfound) {
+                sourceofcouncildistselect.setData(councildistpolygonfound);
+              }
+            }
+          });
+
+          map.addSource("selected-council-dist", {
+            type: "geojson",
+            data: {
+              type: "FeatureCollection",
+              features: [],
+            },
+          });
+
+          map.addLayer(
+            {
+              id: "selected-council-dist-layer",
+              type: "fill",
+              source: "selected-council-dist",
+              paint: {
+                "fill-color": "#000000",
+                "fill-opacity": 0.3,
+              },
+            },
+            "road-label-navigation"
+          );
+        }
+
+        if (hasStartedControls === false) {
+          // Add zoom and rotation controls to the map.
+          map.addControl(new mapboxgl.NavigationControl());
+
+          // Add geolocate control to the map.
+          map.addControl(
+            new mapboxgl.GeolocateControl({
+              positionOptions: {
+                enableHighAccuracy: true,
+              },
+              // When active the map will receive updates to the device's location as it changes.
+              trackUserLocation: true,
+              // Draw an arrow next to the location dot to indicate which direction the device is heading.
+              showUserHeading: true,
+            })
+          );
+        }
+
+        checkHideOrShowTopRightGeocoder();
+
+        map.on("dragstart", (e) => {
+          uploadMapboxTrack({
+            mapname,
+            eventtype: "dragstart",
+            globallng: map.getCenter().lng,
+            globallat: map.getCenter().lat,
+            globalzoom: map.getZoom(),
+          });
+        });
+
+        map.on("dragend", (e) => {
+          uploadMapboxTrack({
+            mapname,
+            eventtype: "dragend",
+            globallng: map.getCenter().lng,
+            globallat: map.getCenter().lat,
+            globalzoom: map.getZoom(),
+          });
+        });
+
+        map.on("zoomstart", (e) => {
+          uploadMapboxTrack({
+            mapname,
+            eventtype: "dragstart",
+            globallng: map.getCenter().lng,
+            globallat: map.getCenter().lat,
+            globalzoom: map.getZoom(),
+          });
+        });
+      });
+
+      var getmapboxlogo: any = document.querySelector(".mapboxgl-ctrl-logo");
+
+      if (getmapboxlogo) {
+        getmapboxlogo.remove();
       }
-
-      checkHideOrShowTopRightGeocoder();
-
-      map.on("dragstart", (e) => {
-        uploadMapboxTrack({
-          mapname,
-          eventtype: "dragstart",
-          globallng: map.getCenter().lng,
-          globallat: map.getCenter().lat,
-          globalzoom: map.getZoom(),
-        });
-      });
-
-      map.on("dragend", (e) => {
-        uploadMapboxTrack({
-          mapname,
-          eventtype: "dragend",
-          globallng: map.getCenter().lng,
-          globallat: map.getCenter().lat,
-          globalzoom: map.getZoom(),
-        });
-      });
-
-      map.on("zoomstart", (e) => {
-        uploadMapboxTrack({
-          mapname,
-          eventtype: "dragstart",
-          globallng: map.getCenter().lng,
-          globallat: map.getCenter().lat,
-          globalzoom: map.getZoom(),
-        });
-      });
-    });
-
-    var getmapboxlogo: any = document.querySelector(".mapboxgl-ctrl-logo");
-
-    if (getmapboxlogo) {
-      getmapboxlogo.remove();
     }
-}}, [mapboxConfig]);
+  }, [mapboxConfig]);
 
   useEffect(() => {
     let arrayoffilterables: any = [];
