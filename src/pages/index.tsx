@@ -56,6 +56,10 @@ const Home: NextPage = () => {
   const [infoBoxLength, setInfoBoxLength] = useState(1);
   const [evictionInfo, setEvictionInfo] = useState(0);
   const [normalizeIntensity, setNormalizeIntensity] = useState(false);
+  const [mapboxConfig, setMapboxConfig] = useState<{
+    mapboxToken: string;
+    mapboxStyle: string;
+  } | null>(null);
 
   //template name, this is used to submit to the map analytics software what the current state of the map is.
   var mapname = "Tenant-Buyouts";
@@ -147,8 +151,10 @@ const Home: NextPage = () => {
   }, [normalizeIntensity]);
 
   useEffect(() => {
-    mapboxgl.accessToken =
-      "pk.eyJ1Ijoia2VubmV0aG1lamlhIiwiYSI6ImNsZG1oYnpxNDA2aTQzb2tkYXU2ZWc1b3UifQ.PxO_XgMo13klJ3mQw1QxlQ";
+    if (mapboxConfig && divRef.current) {
+      mapboxgl.accessToken = mapboxConfig.mapboxToken;
+    // mapboxgl.accessToken =
+    //   "pk.eyJ1Ijoia2VubmV0aG1lamlhIiwiYSI6ImNsZG1oYnpxNDA2aTQzb2tkYXU2ZWc1b3UifQ.PxO_XgMo13klJ3mQw1QxlQ";
 
     const formulaForZoom = () => {
       if (typeof window != "undefined") {
@@ -668,7 +674,7 @@ const Home: NextPage = () => {
     if (getmapboxlogo) {
       getmapboxlogo.remove();
     }
-  }, []);
+}}, [mapboxConfig]);
 
   useEffect(() => {
     let arrayoffilterables: any = [];
