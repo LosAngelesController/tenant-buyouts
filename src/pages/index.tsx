@@ -167,8 +167,6 @@ const Home: NextPage = () => {
   useEffect(() => {
     if (mapboxConfig && divRef.current) {
       mapboxgl.accessToken = mapboxConfig.mapboxToken;
-      // mapboxgl.accessToken =
-      //   "pk.eyJ1Ijoia2VubmV0aG1lamlhIiwiYSI6ImNsZG1oYnpxNDA2aTQzb2tkYXU2ZWc1b3UifQ.PxO_XgMo13klJ3mQw1QxlQ";
 
       const formulaForZoom = () => {
         if (typeof window != "undefined") {
