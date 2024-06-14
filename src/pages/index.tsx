@@ -101,11 +101,11 @@ const Home: NextPage = () => {
   const divRef: any = React.useRef<HTMLDivElement>(null);
 
   const closeInfoBox = () => {
-    console.log("mapref.current", mapref.current);
-    console.log(
-      "mapref.current.getSource tenant-point",
-      mapref.current.getSource("tenant-point")
-    );
+    // console.log("mapref.current", mapref.current);
+    // console.log(
+    //   "mapref.current.getSource tenant-point",
+    //   mapref.current.getSource("tenant-point")
+    // );
 
     mapref.current.setLayoutProperty("point-selected", "visibility", "none");
 
