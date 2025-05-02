@@ -17,21 +17,21 @@ import mapboxgl from "mapbox-gl";
 import { Intensity } from "@/components/Intensity";
 
 const filterableDistricts: any = {
-  1: "583",
-  2: "173",
-  3: "42",
-  4: "193",
-  5: "371",
-  6: "106",
-  7: "56",
-  8: "308",
-  9: "397",
-  10: "1019",
-  11: "410",
-  12: "4",
-  13: "999",
-  14: "256",
-  15: "91",
+  1: "654",
+  2: "190",
+  3: "51",
+  4: "242",
+  5: "423",
+  6: "130",
+  7: "70",
+  8: "375",
+  9: "460",
+  10: "1131",
+  11: "491",
+  12: "8",
+  13: "1123",
+  14: "297",
+  15: "124",
 };
 
 const filterableDistrictsKeys = Object.keys(filterableDistricts);
