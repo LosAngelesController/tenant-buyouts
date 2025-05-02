@@ -410,12 +410,6 @@ const Home: NextPage = () => {
                             }
                             <br />
                             ${
-                              eachCase.properties?.["State"]
-                                ? `<span class="text-blue-400">State: ${eachCase.properties["State"]}</span>`
-                                : ""
-                            }
-                            <br />
-                            ${
                               eachCase.properties?.["Zip Code"]
                                 ? `<span class="text-blue-400">Zip: ${eachCase.properties["Zip Code"]}</span> `
                                 : ""
