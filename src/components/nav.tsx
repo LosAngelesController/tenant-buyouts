@@ -42,7 +42,7 @@ const navigation: any = [
   },
   {
     name: "Table",
-    href: "https://docs.google.com/spreadsheets/d/19d9FlQv0wiv0d04_VKJt9B0kEVf19-ata2_H75B-uDo/edit?usp=sharing",
+    href: "https://docs.google.com/spreadsheets/d/1dNTGvZP0LF-MoNTUOTeQFz9avER0zxbT0IoOAhbyCZY/edit?usp=sharing",
     target: "_blank",
   },
   {
