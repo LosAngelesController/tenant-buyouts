@@ -760,7 +760,7 @@ const Home: NextPage = () => {
           <meta
             name="twitter:image"
             key="twitterimg"
-            content="https://cashforkeys.lacontroller.app/cash-for-keys.png"
+            content="https://cashforkeys.lacontroller.app/cash_for_keys.png"
           ></meta>
           <meta name="description" content="Cash for Keys LA | Map" />
 
@@ -773,7 +773,7 @@ const Home: NextPage = () => {
           <meta property="og:description" content="Cash for Keys LA | Map" />
           <meta
             property="og:image"
-            content="https://cashforkeys.lacontroller.app/cash-for-keys.png"
+            content="https://cashforkeys.lacontroller.app/cash_for_keys.png"
           />
         </Head>
 
